@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GPP Calculator</title>
+
+<style>
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:600px;
+    margin:auto;
+}
+
+.title{
+    text-align:center;
+    font-size:42px;
+    font-weight:bold;
+    margin-bottom:30px;
+}
+
+.row{
+    display:flex;
+    gap:20px;
+}
+
+.input-box{
+    flex:1;
+}
+
+label{
+    display:block;
+    font-size:28px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+/* COUNTER STYLE */
+
+.counter{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#e5e5ea;
+    border-radius:15px;
+    overflow:hidden;
+    height:80px;
+}
+
+.counter button{
+    width:70px;
+    height:80px;
+    border:none;
+    background:transparent;
+    font-size:40px;
+    font-weight:bold;
+    cursor:pointer;
+    color:#444;
+}
+
+.counter button:hover{
+    background:#d7d7dc;
+}
+
+.counter input{
+    width:100%;
+    border:none;
+    background:transparent;
+    text-align:center;
+    font-size:42px;
+    font-weight:bold;
+    outline:none;
+    color:#2c2c3a;
+}
+
+/* RESULT */
+
+.result{
+    background:white;
+    margin-top:20px;
+    padding:25px;
+    border-radius:18px;
+    text-align:center;
+    font-size:34px;
+    font-weight:bold;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="title">
+        GPP CALCULATOR
+    </div>
+
+    <div class="row">
+
+        <!-- LBS -->
+
+        <div class="input-box">
+
+            <label>LBS</label>
+
+            <div class="counter">
+
+                <button onclick="changeValue('lbs', -1)">
+                    -
+                </button>
+
+                <input type="number" id="lbs" value="0">
+
+                <button onclick="changeValue('lbs', 1)">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- GPP -->
+
+        <div class="input-box">
+
+            <label>GPP</label>
+
+            <div class="counter">
+
+                <button onclick="changeValue('gpp', -1)">
+                    -
+                </button>
+
+                <input type="number" id="gpp" value="0">
+
+                <button onclick="changeValue('gpp', 1)">
+                    +
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RESULT -->
+
+    <div class="result" id="arrow">
+        Arrow: 0 gram
+    </div>
+
+    <div class="result" id="spine">
+        Spine:
+    </div>
+
+</div>
+
+<script>
+
+const lbsInput = document.getElementById("lbs");
+const gppInput = document.getElementById("gpp");
+
+/* BUTTON +/- */
+
+function changeValue(id, amount){
+
+    const input = document.getElementById(id);
+
+    let value = Number(input.value);
+
+    value += amount;
+
+    if(value < 0){
+        value = 0;
+    }
+
+    input.value = value;
+
+    calculate();
+}
+
+/* CALCULATE */
+
+function calculate(){
+
+    const lbs = Number(lbsInput.value);
+    const gpp = Number(gppInput.value);
+
+    const arrow = Math.round(lbs * gpp * 0.0647989);
+
+    let spine = "";
+
+    if (lbs >= 30 && lbs <= 35){
+        spine = 600;
+    }
+    else if (lbs >= 36 && lbs <= 39){
+        spine = 550;
+    }
+    else if (lbs >= 40 && lbs <= 45){
+        spine = 500;
+    }
+    else if (lbs >= 46 && lbs <= 49){
+        spine = 450;
+    }
+    else if (lbs >= 50 && lbs <= 55){
+        spine = 400;
+    }
+    else if (lbs >= 56 && lbs <= 59){
+        spine = 350;
+    }
+    else if (lbs >= 60 && lbs <= 65){
+        spine = 300;
+    }
+    else if (lbs >= 66 && lbs <= 69){
+        spine = 250;
+    }
+    else if (lbs >= 70 && lbs <= 100){
+        spine = 200;
+    }
+
+    document.getElementById("arrow").innerHTML =
+        `Arrow: ${arrow.toLocaleString()} gram`;
+
+    document.getElementById("spine").innerHTML =
+        `Spine: ${spine}`;
+}
+
+/* AUTO UPDATE */
+
+lbsInput.addEventListener("input", calculate);
+gppInput.addEventListener("input", calculate);
+
+calculate();
+
+</script>
+
+</body>
+</html>
